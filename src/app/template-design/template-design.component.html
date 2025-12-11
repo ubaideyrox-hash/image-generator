@@ -1,0 +1,399 @@
+<header>
+  <div class="header-container">
+    <a href="javascript: void(0);" class="logo" *ngIf="!inIframe()">
+      DigiSpot
+    </a>
+    <div class="nav-menu"></div>
+  </div>
+</header>
+
+<div class="sigma-editor-area" cdkDropListGroup>
+  <aside>
+    <div class="sm-side">
+      <a
+        href="javascript: void(0);"
+        [ngClass]="{ active: activeSection == 'Templates' }"
+        (click)="activeSection = 'Templates'"
+      >
+        <img src="/assets/images/templates.svg" />
+        <span>Modèles</span>
+      </a>
+      <a
+        href="javascript: void(0);"
+        [ngClass]="{ active: activeSection == 'Uploads' }"
+        (click)="activeSection = 'Uploads'"
+      >
+        <img src="/assets/images/add.svg" />
+        <span>Images</span>
+      </a>
+      <a
+        href="javascript: void(0);"
+        [ngClass]="{ active: activeSection == 'Table' }"
+        (click)="activeSection = 'Table'"
+      >
+        <img src="/assets/images/savedmodels.svg" />
+        <span>Biens</span>
+      </a>
+      <!-- <a
+      href="javascript: void(0);"
+      [ngClass]="{ active: activeSection == 'Classes' }"
+      (click)="activeSection = 'Classes'"
+    >
+      <img src="/assets/images/add.svg" />
+      <span>Classes</span>
+    </a> -->
+    </div>
+    <div class="open-side">
+      <div class="inside-selective-area">
+        <div class="selective-area-section">
+          <!-- <label>All results</label> -->
+          <div class="listing-imgs" *ngIf="activeSection == 'Templates'">
+            <img
+              src="/assets/images/TemplateOne.jpg"
+              (click)="seletedTemplate(1)"
+            />
+            <img
+              src="/assets/images/TemplateTwo.jpg"
+              (click)="seletedTemplate(2)"
+            />
+            <img
+              src="/assets/images/TemplateThree.jpg"
+              (click)="seletedTemplate(3)"
+            />
+            <img
+              src="/assets/images/TemplateFour.jpg"
+              (click)="seletedTemplate(4)"
+            />
+            <img
+              src="/assets/images/TemplateFive.jpg"
+              (click)="seletedTemplate(5)"
+            />
+            <img
+              src="/assets/images/TemplateSix.jpg"
+              (click)="seletedTemplate(6)"
+            />
+            <img
+              src="/assets/images/TemplateSeven.jpg"
+              (click)="seletedTemplate(7)"
+            />
+            <img
+              src="/assets/images/TemplateEight.jpg"
+              (click)="seletedTemplate(8)"
+            />
+          </div>
+        </div>
+        <div class="selective-area-section" *ngIf="activeSection == 'Table'">
+        <input type="text" (input)="search($event)" pInputText placeholder="Recherche" class="input-search" style="width: 100%;">  <br><br>
+
+          <div class="card">
+            <p-table [value]="allRecords">
+                <ng-template pTemplate="header">
+                    <tr >
+                        <th>Nom</th>
+                        <th style="text-align: right;"></th>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-record>
+                    <tr>
+                        <td>{{ record.filename }}</td>
+                        <td >
+                          <i style="float: right;" class="pi pi-trash ml-10 pointer" (click)="deleteTemplate(record._id)"></i>
+
+                          <i style="float: right;" class="pi pi-pencil ml-10 pointer" (click)="getTemplatebyId(record._id)"></i>
+                        </td>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="emptymessage" let-columns>
+                  <tr>
+                    <td [attr.colspan]="30" class="text-center">
+                      <strong *ngIf="noRecord">Aucun bien trouvé</strong>
+                    </td>
+                  </tr>
+                </ng-template>
+            </p-table>
+          </div>
+
+          <!-- <div class="upload-listing">
+            <div class="listing-imgs">
+              <div
+                *ngFor="let pic of pictures; let i = index"
+                pDraggable="pic"
+                (onDragStart)="dragStart($event, pic, i, 'pic')"
+              >
+                <img [src]="pic" width="400" />
+              </div>
+            </div>
+            <div
+              class="drag-area"
+              mat-stroked-button
+              type="button"
+              (click)="filePicker.click()"
+            >
+              Faites glisser l'image ici ou cliquez pour la télécharger
+            </div>
+            <input
+              type="file"
+              style="display: none"
+              multiple
+              #filePicker
+              (change)="imagePicker($event)"
+            />
+          </div> -->
+        </div>
+
+        <div class="selective-area-section" *ngIf="activeSection == 'Uploads'">
+          <div class="upload-listing">
+            <div class="listing-imgs">
+              <div
+                *ngFor="let pic of pictures; let i = index"
+                pDraggable="pic"
+                (onDragStart)="dragStart($event, pic, i, 'pic')"
+              >
+                <img [src]="pic" width="400" />
+              </div>
+            </div>
+            <div
+              class="drag-area"
+              mat-stroked-button
+              type="button"
+              (click)="filePicker.click()"
+            >
+              Faites glisser l'image ici ou cliquez pour la télécharger
+            </div>
+            <input
+              type="file"
+              style="display: none"
+              multiple
+              #filePicker
+              (change)="imagePicker($event)"
+            />
+          </div>
+        </div>
+
+        <!-- <div  *ngIf="activeSection == 'Classes'">
+          <div class="upload-listing">
+            <div class="listing-imgs">
+              <div
+                *ngFor="let pic of classesPics; let i = index"
+                pDraggable="pic"
+                (onDragStart)="dragStart($event, pic, i, 'pic')"
+              >
+                <img [src]="pic.data" width="100" />
+              </div>
+            </div>
+           
+         
+          </div>
+        </div> -->
+      </div>
+    </div>
+  </aside>
+
+  <div class="perform-area">
+    <div class="editor-header">
+      <div class="editor-fix" style="margin-left: -40px">
+        {{ "Couleur du fond: " }}
+
+        <p-colorPicker
+          class="pointer"
+          [(ngModel)]="defaultColor"
+          (onChange)="setColor($event.value)"
+          title="Couleur du fond"
+        >
+        </p-colorPicker>
+      </div>
+      <p-dropdown
+        [options]="global.classesPics"
+        placeholder="PEB"
+        (onChange)="addClassPic($event)"
+      ></p-dropdown>
+      <p-dropdown
+      [options]="global.option"
+      placeholder="Affichettes"
+      (onChange)="addOption($event)"
+    ></p-dropdown>
+      <button
+        type="button"
+        style="width: 150px"
+        class="btn outline-btn"
+        (click)="addText()"
+      >
+        <div>Ajouter du texte</div>
+      </button>
+
+      <div
+        style="
+          width: 300px;
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+        "
+      >
+        <label>Espace entre les zones: </label>
+        <button
+          type="button"
+          style="background-color: #395b64; color: white"
+          (click)="adjustSpace('-')"
+        >
+          -</button
+        ><span>{{ showSpaces }}</span>
+        <button
+          style="background-color: #395b64; color: white"
+          (click)="adjustSpace('+')"
+        >
+          +
+        </button>
+      </div>
+      <button
+        type="button"
+        class="btn outline-btn"
+        (click)="download()"
+        [disabled]="isBusy"
+      >
+        <span
+          *ngIf="inIframe(); else message"
+          style="
+            width: 100px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+          "
+        >
+          <i *ngIf="isBusy" class="pi pi-spin pi-spinner"></i>
+          <img *ngIf="!isBusy" src="/assets/images/upload.svg" height="14" />
+          Sauvegarder
+        </span>
+      </button>
+      <ng-template #message>
+        <i *ngIf="isBusy" class="pi pi-spin pi-spinner"></i>
+        <img *ngIf="!isBusy" src="/assets/images/download.svg" height="14" />
+        Télécharger
+      </ng-template>
+    </div>
+
+    <div class="editor-area">
+      <div class="example-boundary" [style]="layoutHeightWidht">
+        <div #container id="image-section">
+          <mat-grid-list
+            [cols]="gridCol"
+            [rowHeight]="heigthOfRow"
+            [style]="canvasBackGroundColor"
+            [gutterSize]="spaces"
+          >
+            <mat-grid-tile
+              *ngFor="let tile of droped; let i = index"
+              [colspan]="tile.cols"
+              [rowspan]="tile.rows"
+              pDroppable="tile"
+              (drop)="drop($event, i)"
+            >
+              <ng-container *ngIf="tile.type == 'both'">
+                <img
+                  [style]="tile.style"
+                  [ngClass]="{ activeCell: imageIndex == i }"
+                  style="background-size: cover"
+                  [src]="tile.data"
+                  (click)="selectIndex('both', 'bgimage', i, tile.data)"
+                  alt="Insert Image or Text"
+                />
+
+                <ng-container *ngIf="tile.classImage && tile.classImage != ''">
+                  <img class="image2" [ngClass]="{ activeCell: SecondimageIndex == i && tile.classImage != ''}"
+                    [src]="tile.classImage"(click)="selectIndex('both', 'classimage', i, tile.classImage)" ngDraggable
+                  />
+                </ng-container>
+                <ng-container *ngIf="tile.optionImage && tile.optionImage != ''">
+                  <img class="image2" style="width: 40%;height: 45%;position: absolute;top: 8px;left: 5px;" [ngClass]="{ activeCell: ThirdimageIndex == i && tile.optionImage != ''}"
+                    [src]="tile.optionImage"(click)="selectIndex('both', 'optionImage', i, tile.optionImage)" ngDraggable />
+                </ng-container>
+
+                <ng-container *ngIf="tile.text">
+                  <p
+                    class="centered ql-editor TextOverImage"
+                    style="width: 150%"
+                    [ngClass]="{
+                      activeCell: inputIndex == i && tile.text != ''
+                    }"
+                    (click)="selectIndex('both', 'text', i, tile.text)"
+                    [innerHTML]="tile.text | noSanitize"
+                    ngDraggable
+                  ></p>
+                </ng-container>
+              </ng-container>
+
+              <img
+                [style]="tile.style"
+                style="background-size: cover"
+                [ngClass]="{ activeCell: imageIndex == i }"
+                *ngIf="tile.type == 'image'"
+                [src]="tile.data"
+                (click)="selectIndex('image', '', i)"
+                alt="Insert Image or Text"
+              />
+              <p
+                *ngIf="tile.type == 'text'"
+                class="ql-editor"
+                style="width: 50%"
+                [ngClass]="{ activeCell: inputIndex == i }"
+                (click)="selectIndex('text', '', i, tile.data)"
+                [innerHTML]="tile.data | noSanitize"
+                ngDraggable
+              ></p>
+            </mat-grid-tile>
+          </mat-grid-list>
+        </div>
+      </div>
+
+      <p-dialog
+        header="Modifier Texte"
+        [(visible)]="openEditor"
+        [maximizable]="false"
+        [draggable]="true"
+        [resizable]="true"
+        [style]="{ position: 'absolute', top: '150px' }"
+      >
+        <p-editor
+          [(ngModel)]="EditorData"
+          [style]="{ height: '250px' }"
+          styleClass="editorColor"
+          (onTextChange)="editorText($event)"
+        ></p-editor>
+      </p-dialog>
+      <p-dialog
+        header="Libellé"
+        [(visible)]="openSave"
+        [style]="{ width: '350px', position: 'absolute', top: '150px' }"
+      >
+        <input *ngIf="!id"
+          id="filename"
+          pInputText
+          [style]="{ width: '100%' }"
+          [(ngModel)]="filename"
+          autofocus
+        />
+        <div style="display: flex; justify-content: flex-end">
+          <button
+            [disabled]="filename.length < 3"
+            pButton
+            type="button"
+            class="p-button-outlined"
+            style="margin-top: 8px"
+            label="OK"
+            (click)="saveFileandTemplate()"
+          ></button>
+        </div>
+        <!-- <div style="display: flex; justify-content: flex-end">
+          <button
+            [disabled]="filename.length < 3"
+            pButton
+            type="button"
+            class="p-button-outlined"
+            style="margin-top: 8px"
+            [label]="id?'Update Template':'Save Template'"
+            (click)="createNewTemplate()"
+          ></button>
+        </div> -->
+      </p-dialog>
+    </div>
+  </div>
+</div>
