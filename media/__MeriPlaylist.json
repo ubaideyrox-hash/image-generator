@@ -1,0 +1,65 @@
+{
+    "name": "MeriPlaylist",
+    "description": "wewewew",
+    "user_id": "63b2a72a61a3222824d68ef3",
+    "createdAt": 1705908097549,
+    "settings": {
+        "ticker": {
+            "enable": false,
+            "behavior": "scroll",
+            "textSpeed": 3,
+            "rss": {
+                "enable": false,
+                "link": null,
+                "feedDelay": 10
+            }
+        },
+        "ads": {
+            "adPlaylist": false,
+            "adCount": 1,
+            "adInterval": 60
+        },
+        "audio": {
+            "enable": false,
+            "random": false,
+            "volume": 50
+        }
+    },
+    "assets": [
+        {
+            "duration": 10,
+            "filename": "Screenshot 1.png",
+            "isVideo": false,
+            "option": {
+                "main": false
+            },
+            "selected": false
+        },
+        {
+            "duration": 10,
+            "filename": "Screenshot 2.png",
+            "isVideo": false,
+            "option": {
+                "main": false
+            },
+            "selected": false
+        },
+        {
+            "duration": 10,
+            "filename": "Screenshot 4.png",
+            "isVideo": false,
+            "option": {
+                "main": false
+            },
+            "selected": false
+        }
+    ],
+    "layout": "1",
+    "templateName": "custom_layout.html",
+    "schedule": {},
+    "version": 2,
+    "videoWindow": {
+        "mainzoneOnly": false
+    },
+    "zoneVideoWindow": {}
+}

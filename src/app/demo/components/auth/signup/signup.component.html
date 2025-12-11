@@ -1,0 +1,209 @@
+<div *ngIf="loader==true">
+  <div class="site-loader" id="site-loader">
+      <span class="loader-spin"></span>
+  </div>
+</div>
+<div class="surface-ground flex align-items-center justify-content-center min-h-screen overflow-hidden">
+    <div class="flex flex-column align-items-center justify-content-center">
+        <img src="assets/layout/images/{{layoutService.config.colorScheme === 'light' ? 'logo-dark' : 'logo-white'}}.png" alt="Sakai logo" class="mb-5 w-6rem flex-shrink-0">
+        <div style="border-radius:56px; padding:0.3rem; background: linear-gradient(180deg, var(--primary-color) 10%, rgba(33, 150, 243, 0) 30%);">
+            <div class="w-full surface-card py-8 px-5 sm:px-8" style="border-radius:53px">
+                <div class="text-center mb-5">
+                    <div class="text-900 text-3xl font-medium mb-3">Create an Account</div>
+                </div>
+                <form
+                [formGroup]="registrationForm"
+                (ngSubmit)="submit()"
+              >
+                <div>
+                    <label for="fullName" class="block text-900 text-xl font-medium mb-2">Full Name</label>
+                    <input id="fullName" placeholder="Full Name" pInputText class="w-full md:w-30rem mb-5" style="padding:1rem"   type="text"
+                    name="fullname"
+                    formControlName="fullname"
+                   
+                    autocomplete="off"
+                    [ngClass]="{
+                      'is-invalid': registrationForm.controls['fullname'].invalid,
+                      'is-valid': registrationForm.controls['fullname'].valid
+                    }">
+                    <ng-container
+                    [ngTemplateOutlet]="formError"
+                    [ngTemplateOutletContext]="{
+                      validation: 'required',
+                      message: 'Fullname is required',
+                      control: registrationForm.controls['fullname']
+                    }"
+                  ></ng-container>
+                  <ng-container
+                    [ngTemplateOutlet]="formError"
+                    [ngTemplateOutletContext]="{
+                      validation: 'minlength',
+                      message: 'Fullname should have at least 3 symbols',
+                      control: registrationForm.controls['fullname']
+                    }"
+                  ></ng-container>
+                  <ng-container
+                    [ngTemplateOutlet]="formError"
+                    [ngTemplateOutletContext]="{
+                      validation: 'maxLength',
+                      message: 'Fullname should have maximum 100 symbols',
+                      control: registrationForm.controls['fullname']
+                    }"
+                  ></ng-container>
+
+                    <label for="email1" class="block text-900 text-xl font-medium mb-2">Email</label>
+                    <input id="email1" placeholder="Email address" pInputText class="w-full md:w-30rem mb-5" style="padding:1rem"  type="email"
+
+                    name="email"
+                    formControlName="email"
+                    autocomplete="off"
+                    [ngClass]="{
+                      'is-invalid': registrationForm.controls['email'].invalid,
+                      'is-valid': registrationForm.controls['email'].valid
+                    }">
+                    <ng-container
+                    [ngTemplateOutlet]="formError"
+                    [ngTemplateOutletContext]="{
+                      validation: 'required',
+                      message: 'Email is required',
+                      control: registrationForm.controls['email']
+                    }"
+                  ></ng-container>
+                  <ng-container
+                    [ngTemplateOutlet]="formError"
+                    [ngTemplateOutletContext]="{
+                      validation: 'email',
+                      message: 'Email is invalid',
+                      control: registrationForm.controls['email']
+                    }"
+                  ></ng-container>
+                  <ng-container
+                    [ngTemplateOutlet]="formError"
+                    [ngTemplateOutletContext]="{
+                      validation: 'minlength',
+                      message: 'Email should have at least 3 symbols',
+                      control: registrationForm.controls['email']
+                    }"
+                  ></ng-container>
+                  <ng-container
+                    [ngTemplateOutlet]="formError"
+                    [ngTemplateOutletContext]="{
+                      validation: 'maxLength',
+                      message: 'Email should have maximum 360 symbols',
+                      control: registrationForm.controls['email']
+                    }"
+                  ></ng-container>
+
+                    <label for="password1" class="block text-900 font-medium text-xl mb-2">Password</label>
+                    <p-password id="password1"  placeholder="Password" [toggleMask]="true" styleClass="mb-5" inputStyleClass="w-full p-3 md:w-30rem"   type="password"
+                    name="password"
+                    formControlName="password"
+                    autocomplete="off"
+                    [ngClass]="{
+                      'is-invalid': registrationForm.controls['password'].invalid,
+                      'is-valid': registrationForm.controls['password'].valid
+                    }"></p-password>
+                    <ng-container
+                    [ngTemplateOutlet]="formError"
+                    [ngTemplateOutletContext]="{
+                      validation: 'required',
+                      message: 'Password is required',
+                      control: registrationForm.controls['password']
+                    }"
+                  ></ng-container>
+                  <ng-container
+                    [ngTemplateOutlet]="formError"
+                    [ngTemplateOutletContext]="{
+                      validation: 'minlength',
+                      message: 'Password should have at least 3 symbols',
+                      control: registrationForm.controls['password']
+                    }"
+                  ></ng-container>
+                  <ng-container
+                    [ngTemplateOutlet]="formError"
+                    [ngTemplateOutletContext]="{
+                      validation: 'maxLength',
+                      message: 'Password should have maximum 100 symbols',
+                      control: registrationForm.controls['password']
+                    }"
+                  ></ng-container>
+
+                    <label for="confirmPassword" class="block text-900 font-medium text-xl mb-2">Confirm Password</label>
+                    <p-password id="confirmPassword"   [toggleMask]="true" styleClass="mb-5" inputStyleClass="w-full p-3 md:w-30rem" 
+                    placeholder="Confirm password"
+                    name="cPassword"
+                    autocomplete="off"
+                    formControlName="cPassword"
+                    [ngClass]="{
+                      'is-invalid': registrationForm.controls['cPassword'].invalid,
+                      'is-valid': registrationForm.controls['cPassword'].valid
+                    }"></p-password>
+                    <ng-container
+                    [ngTemplateOutlet]="formError"
+                    [ngTemplateOutletContext]="{
+                      validation: 'required',
+                      message: 'Confirm Password is required',
+                      control: registrationForm.controls['cPassword']
+                    }"
+                  ></ng-container>
+                  <ng-container
+                    [ngTemplateOutlet]="formError"
+                    [ngTemplateOutletContext]="{
+                      validation: 'minlength',
+                      message: 'Confirm Password should have at least 3 symbols',
+                      control: registrationForm.controls['cPassword']
+                    }"
+                  ></ng-container>
+                  <ng-container
+                    [ngTemplateOutlet]="formError"
+                    [ngTemplateOutletContext]="{
+                      validation: 'maxLength',
+                      message: 'Confirm Password should have maximum 100 symbols',
+                      control: registrationForm.controls['cPassword']
+                    }"
+                  ></ng-container>
+                  <ng-container
+                    *ngIf="
+                      registrationForm.controls['cPassword'].errors &&
+                      registrationForm.controls['cPassword'].errors?.['ConfirmPassword']
+                    "
+                  >
+                    <div class="fv-plugins-message-container">
+                      <div class="fv-help-block">
+                        'Passsword' and 'Confirm Password' didn't match.
+                      </div>
+                    </div>
+                  </ng-container>
+
+                    <div class="flex align-items-center justify-content-between mb-5 gap-5">
+
+                    </div>
+                    <button pButton pRipple label="Sign Up"   [disabled]="registrationForm.invalid"   type="submit" class="w-full p-3 text-xl" ></button>
+                </div>
+                </form>
+                <div class="text-center">
+                    <p class="text-600 font-medium mt-3">Already have an account <a class="cursor-pointer" routerLink="/auth/login">Login</a> </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<ng-template
+  #formError
+  let-control="control"
+  let-message="message"
+  let-validation="validation"
+>
+  <ng-container
+    *ngIf="control.hasError(validation) && (control.dirty || control.touched)"
+  >
+    <div >
+      <div class="fv-help-block">
+        <span role="alert" style="color: red;">
+          {{ message }}
+        </span>
+      </div>
+    </div>
+  </ng-container>
+</ng-template>

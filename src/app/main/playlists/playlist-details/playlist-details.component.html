@@ -1,0 +1,248 @@
+<div class="grid p-fluid">
+    <div *ngIf="loader==true">
+        <div class="site-loader" id="site-loader">
+            <span class="loader-spin"></span>
+        </div>
+    </div>
+    <div class="col-12 md:col-12 pb-0">
+        <h2 class="playlist-details-h mb-0">Playlist Details</h2>
+        <p-divider></p-divider>
+    </div>
+    <div class="col-12 md:col-12 pb-0 grid-bttn">
+        <!-- <button pButton type="button" label="Preview" class="p-button-secondary btns preview"></button> -->
+        <button pButton type="button" label="Save" class="p-button-success btns save-btn"
+            (click)="createPlaylist()"></button>
+        <button pButton type="button" label="Cancel" class="p-button-info btns cancel-btn"
+            routerLink="/main/playlists"></button>
+    </div>
+
+    <div class="input-filed-container">
+        <p class="input-min-width"> Name<i style="color: red;">*</i> </p>
+        <input type="text" pInputText [(ngModel)]="name">
+    </div>
+    <div class="input-filed-container">
+        <p class="input-min-width">Description<i style="color: red;">*</i></p>
+        <input type="text" pInputText [(ngModel)]="description">
+    </div>
+
+    <div class="change-layout layout-bttn">
+        <button pButton type="button" label="Change Layout" class="p-button-success btns save-btn change-layout-btn"
+            (click)="changeVisiblity()"></button>
+    </div>
+
+    <div class="col-12 md:col-12 pb-0 mb-3">
+        <div class="card">
+            <div class="flex justify-content-between align-items-center">
+                <span class="playlist-h">Playlist</span>
+                <span>Total duration <b>{{playListtTotalDuration?playListtTotalDuration:'00:00:00'}}</b></span>
+            </div>
+            <div class="grid" class="grid-margin">
+                <div class="droppable-container" pDroppable (onDrop)="drop()">
+                    <ng-container *ngFor="let playlist of selectedPlaylist;let i=index" class="droppable-container ">
+                        <div>
+                            <div style="border:1px solid grey; margin-right: 10px; background-color: #F6F8FB;">
+                                <p-image *ngIf="playlist.type!='video' && playlist.type!='audio'; else elseBlock"
+                                    [src]="playlist.image" alt="Image" [preview]="true" width="120" height="120">
+                                    <ng-template pTemplate="indicator">
+                                        <i class="pi pi-times" style="font-size: 2rem; margin-left: 10px;"
+                                            (click)="removeItemFromPlaylist(i)"></i>
+                                        <i class="pi pi-search-plus" style="font-size: 2rem; margin-left: 10px;"></i>
+
+                                    </ng-template>
+                                </p-image>
+                            </div>
+                            <ng-template #elseBlock>
+                                <p-image *ngIf="playlist.type=='video' ; else blk2" [src]="playlist.image" alt="Image"
+                                    width="120" height="120" [preview]="!isOpenVideo">
+                                    <ng-template pTemplate="indicator">
+                                        <i class="pi pi-times" style="font-size: 2rem; margin-left: 10px;"
+                                            (click)="removeItemFromPlaylist(i)"></i>
+                                        <i class="pi pi-search-plus" (click)="showVideo(playlist)"
+                                            style="font-size: 2rem; margin-left: 10px;"></i>
+                                    </ng-template>
+                                </p-image>
+                            </ng-template>
+                            <ng-template #blk2>
+                                <p-image *ngIf="playlist.type=='audio'" [src]="playlist.image" alt="Image" width="120"
+                                    height="120" [preview]="!isOpenAudio">
+                                    <ng-template pTemplate="indicator">
+                                        <i class="pi pi-times" style="font-size: 2rem; margin-left: 10px;"
+                                            (click)="removeItemFromPlaylist(i)"></i>
+                                        <i class="pi pi-search-plus" (click)="showAudio(playlist)"
+                                            style="font-size: 2rem; margin-left: 10px;"></i>
+                                    </ng-template>
+                                </p-image>
+                            </ng-template>
+
+                            <div
+                                style="display: flex; justify-content: space-between; margin-right: 9.5px; margin-top: -4px;">
+                                <span class="count" style="width:30%"
+                                    (click)="decreaseCalculateCount(playlist)"><b>-</b></span>
+                                <span class="count"
+                                    style="width:40%; color:grey"><b>{{playlist.count?playlist.count:'0'}}"</b></span>
+                                <span class="count" style="width:30%"
+                                    (click)="increaseCalculateCount(playlist)"><b>+</b></span>
+                            </div>
+                        </div>
+                    </ng-container>
+                    <ng-container *ngFor="let playlist of n" class="droppable-container ">
+                        <div>
+                            <div class="droppable" style="width:120px; height:120px; background-color: #F6F8FB;">
+
+                            </div>
+
+                            <div style="display: flex; justify-content: space-between; margin-right: 10px;">
+                                <span class="count" style="width:30%; color:grey"><b>-</b></span>
+                                <span class="count" style="width:40%; color:grey"><b></b></span>
+                                <span class="count" style="width:30%; color:gray"><b>+</b></span>
+                            </div>
+
+                        </div>
+
+                    </ng-container>
+                </div>
+            </div>
+        </div>
+        <div class="col-12 md:col-12 pb-0 mb-3">
+            <div class="card">
+                <div class="flex justify-content-between align-items-center">
+                    <span class="playlist-h">Library</span>
+                    <span>Total duration <b>{{libraryTotalDuration?libraryTotalDuration:'00:00:00'}}</b></span>
+                </div>
+                <div class="flex justify-content-between flex-wrap mt-3 mb-3">
+                    <div>
+                        <button pButton type="button" label="All media" class="p-button-info  all-media"
+                            (click)="setSelected('all')"></button>
+                        <button pButton type="button" label="Images" class="p-button-info  below-card-btns"
+                            (click)="setSelected('images')"></button>
+                        <button pButton type="button" label="Video" class="p-button-info  below-card-btns"
+                            (click)="setSelected('videos')"></button>
+                        <button pButton type="button" label="Audio" class="p-button-info  below-card-btns"
+                            (click)="setSelected('audios')"></button>
+                        <!-- <button pButton type="button" label="Audio Assets" class="p-button-info  below-card-btns"></button> -->
+                        <!-- <button pButton type="button" label="Documents" class="p-button-info  below-card-btns"></button>
+                    <button pButton type="button" label="Web Pages" class="p-button-info  below-card-btns"></button>
+                    <button pButton type="button" label="Widgets" class="p-button-info  below-card-btns"></button>
+                    <button pButton type="button" label="Playlists" class="p-button-info  below-card-btns"></button> -->
+                        <button pButton type="button" label="Layouts" class="p-button-info   below-card-btns"></button>
+                    </div>
+
+                    <div class="">
+                        <input type="text" (input)="search($event)" id="search-bar" pInputText
+                            placeholder="Search in all Items">
+                    </div>
+                </div>
+                <div class="grid">
+                    <div class="flex flex-wrap">
+                        <ng-container *ngFor="let playlist of availablePlaylist">
+                            <p-image *ngIf="selectedOption=='images'||selectedOption=='all'" pDraggable
+                                (onDragStart)="dragStart(playlist)" (onDragEnd)="dragEnd()"
+                                [style]="{'margin-left': '10px','margin-top': '30px'}" [src]="playlist.image"
+                                alt="Image" width="150" height="150" [preview]="true">
+                                <ng-template pTemplate="indicator">
+                                    <i class="pi pi-arrow-up pointer" (click)="pushToPlaylist(playlist)" style="font-size: 2rem; margin-left: 10px;"></i>
+                                    <i class="pi pi-search-plus" style="font-size: 2rem; margin-left: 10px;"></i>
+
+                                </ng-template>
+                            </p-image>
+
+                        </ng-container>
+                        <ng-container *ngFor="let playlist of videos">
+                            <p-image *ngIf="selectedOption=='videos'||selectedOption=='all'"
+                                class="draggable-item video" pDraggable (onDragStart)="dragStart(playlist)"
+                                (onDragEnd)="dragEnd()" [src]="playlist.image" alt="Image" width="150" height="150"
+                                [preview]="!isOpenVideo">
+                                <ng-template pTemplate="indicator">
+                                    <i class="pi pi-arrow-up" (click)="pushToPlaylist(playlist)" style="font-size: 2rem; margin-left: 10px;"></i>
+                                    <i (click)="showVideo(playlist)" class="pi pi-search-plus"
+                                        style="font-size: 2rem; margin-left: 10px;"></i>
+
+                                </ng-template>
+                            </p-image>
+                        </ng-container>
+                        <ng-container *ngFor="let audio of audios">
+                            <p-image *ngIf="selectedOption=='audios'||selectedOption=='all'" class="draggable-item"
+                                [src]="audio.image" pDraggable (onDragStart)="dragStart(audio)" (onDragEnd)="dragEnd()"
+                                alt="Image" width="150" height="150" [preview]="!isOpenAudio">
+                                <ng-template pTemplate="indicator">
+                                    <i class="pi pi-arrow-up" (click)="pushToPlaylist(audio)" style="font-size: 2rem; margin-left: 10px;"></i>
+                                    <i (click)="showAudio(audio)" class="pi pi-search-plus"
+                                        style="font-size: 2rem; margin-left: 10px;"></i>
+
+                                </ng-template>
+                            </p-image>
+                        </ng-container>
+                        <!-- <ng-container *ngIf="noRecord">
+                            <span>No records found</span>
+                        </ng-container> -->
+                        
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- add image Dialogue------------ -->
+    <p-dialog [(visible)]="visibleLayoutModal" position="top" [closable]="false">
+
+        <p-header style="display: flex; width: 100%; justify-content: space-around; ">
+            <span style="text-align: center; width: 100%; font-weight: 400;">
+                Screen Layout
+            </span>
+            <button pButton type="button" label="OK" style="background-color: blue; width: 60px; height: 40px;"
+                (click)="setLayout()"></button>
+
+        </p-header>
+
+        <p style="margin-top: 10px;">
+            Lorem ipsum dolor sit amet consectetur, adipisicing elit. Praesentium facilis aspernatur, asperiores
+            totam, corrupti nihil quod iusto placeat fugiat laudantium eos laborum neque sequi, maxime harum
+            doloribus unde reiciendis esse!
+        </p>
+
+        <div *ngFor="let item of displayList; index as i "
+            style="border: 1px solid rgb(230, 224, 224); padding: 20px; align-items: center;">
+            <div style="display: flex; justify-content: space-around;">
+                <p-radioButton [(ngModel)]="layout" value={{item.value}} inputId="city{{i}}"></p-radioButton>
+                <label style="text-align: left; width: 70%;">
+                    <p style="color: orangered; font-weight: 600; ">{{item.name}}</p>
+                    <p>{{item.desc}}</p>
+                </label>
+                <img [src]="item.img" style="width: 50px; height: 50px;" />
+            </div>
+
+        </div>
+    </p-dialog>
+
+
+    <p-galleria [value]="[viewVideo]" [(visible)]="isOpenVideo" [(activeIndex)]="activeIndex"
+        [containerStyle]="{'max-width': '850px'}" [fullScreen]="true" [showThumbnails]="false" [baseZIndex]="100000">
+        <ng-template pTemplate="item" let-item>
+            <video width="500" height="400" controls style="margin-right: 20px;">
+                <source [src]="item.video" type="video/mp4">
+                Your browser does not support the video tag.
+            </video>
+        </ng-template>
+        <ng-template pTemplate="thumbnail" let-item>
+            <div class="grid grid-nogutter justify-content-center">
+                <video width="500" height="400" controls style="margin-right: 20px;">
+                    <source [src]="item.video" type="video/mp4">
+                    Your browser does not support the video tag.
+                </video>
+            </div>
+        </ng-template>
+    </p-galleria>
+
+    <p-galleria [value]="[viewAudio]" [(visible)]="isOpenAudio" [(activeIndex)]="activeIndex"
+        [containerStyle]="{'max-width': '850px'}" [fullScreen]="true" [showThumbnails]="false" [baseZIndex]="100000">
+        <ng-template pTemplate="item" let-item>
+            <audio [src]="item.audio" controls></audio>
+        </ng-template>
+        <ng-template pTemplate="thumbnail" let-item>
+            <div class="grid grid-nogutter justify-content-center">
+                <audio [src]="item.image" controls></audio>
+            </div>
+        </ng-template>
+    </p-galleria>
+</div>

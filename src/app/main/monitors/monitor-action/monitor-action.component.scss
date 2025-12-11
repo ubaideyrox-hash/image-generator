@@ -1,0 +1,331 @@
+.container {
+    padding: 15px
+}
+
+.monitor-text {
+    color: #393939eb;
+    font-size: 22px;
+    font-weight: 400;
+    margin: 20px 0;
+}
+
+.monitor-box {
+    width: 281px;
+    height: 281px;
+    background-color: #F6F8FB;
+    text-align: center;
+}
+
+.monitor-img {
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    margin-top: 20px;
+}
+
+.text-h2 {
+    font-size: 17px;
+    font-weight: 700;
+    color: #1e1c24d9;
+    margin-top: 14px;
+    margin-bottom: 0;
+}
+
+.install-extension {
+    background: #EEF2F7;
+    border-radius: 10px;
+    margin: 22px 14px 0;
+    color: #1e1c24;
+    font-size: 11px;
+    padding: 22px 22px 15px;
+}
+
+.install-text-p {
+    width: 98%;
+    margin: auto;
+}
+
+.install-text-h4 {
+    font-size: 14px;
+    margin-top: 15px;
+    font-weight: 700;
+    color: #f26f26;
+    margin-bottom: 0;
+    cursor: pointer;
+}
+
+.monitor-bttn {
+    background: #5a5e68;
+    border: 1px solid #5a5e68;
+    width: 281px;
+    height: 28px;
+    margin-top: 10px;
+    color: #f77;
+}
+
+.bttn-text {
+    color: #FFF;
+    margin-left: 5px;
+}
+
+.monitor-ul {
+    padding: 0;
+    margin: 10px 0;
+    align-items: center;
+}
+
+.pi-caret-right {
+    font-size: 10px;
+    color: #478fca;
+    margin-right: 10px;
+}
+
+.text-p1 {
+    font-size: 14px;
+    color: #393939f2;
+    line-height: 1.5;
+}
+
+.Save-bttn {
+    width: 195px;
+    height: 25px;
+    background-color: #dd5a43;
+    color: #fff;
+    border: 1px solid #dd5a43;
+    font-size: 13px;
+}
+
+.action-bttn {
+    height: 25px;
+    border: 1px solid #3939394a;
+    color: #3939394a;
+    line-height: 1.5;
+    font-size: 13px;
+    padding: 0 10px;
+    margin: 0 0 0 10px;
+}
+
+.pi-send {
+    color: #FFF;
+    font-size: 12px;
+}
+
+.pi-angle-down {
+    font-size: 11px;
+}
+
+.monitor-label-text {
+    font-weight: 400;
+    font-size: 14px;
+    padding-top: 7px;
+    margin-bottom: 5px;
+    color: #393939f0;
+    line-height: 1.5;
+}
+
+.monitor-input-text {
+    width: 100%;
+    height: 34px;
+    border-radius: 0;
+    color: #858585;
+    border: 1px solid #d5d5d5;
+    padding: 5px 4px;
+    line-height: 1.2;
+    font-size: 14px;
+}
+
+.register-bttn {
+    border: 1px solid #7b7b7b;
+    background-color: #fff;
+    color: #7b7b7b;
+    font-size: 16px;
+    height: 28px;
+    margin: 0 0 20px;
+    cursor: pointer;
+}
+
+.register-bttn:hover {
+    background-color: #7b7b7b;
+    color: #fff;
+}
+
+.text-area {
+    height: 50px;
+}
+
+::ng-deep.p-inputtext {
+    padding: 0.5rem 0.5rem;
+}
+
+::ng-deep.p-dropdown-trigger {
+    width: 1.5rem !important;
+}
+
+.monitor-input-text-2 {
+    cursor: not-allowed;
+    width: 100%;
+    height: 35px;
+    margin: 0 0px 0 5px;
+    background: #eee;
+    padding: 6px 12px;
+    font-size: 14px;
+    line-height: 1.2;
+    border-radius: 0;
+    color: #858585;
+    border: 1px solid #d5d5d5;
+}
+
+::ng-deep.p-tabview-nav {
+    flex-wrap: wrap;
+}
+
+::ng-deep.p-tabview .p-tabview-nav li.p-highlight .p-tabview-nav-link {
+    padding: 8px 15px;
+    color: #999 !important;
+    z-index: 12;
+    border-top: 2px solid #f26f26 !important;
+    border-bottom: 0px !important;
+    border: 1px solid #99999982;
+}
+
+::ng-deep.p-tabview .p-tabview-nav li .p-tabview-nav-link {
+    padding: 8px 10px;
+    background-color: #f9f9f9;
+    border-radius: 0 !important;
+    height: 35px;
+    color: #999;
+    margin-right: -1px;
+    line-height: 16px;
+    position: relative;
+    z-index: 11;
+    border-color: transparent;
+    font-weight: 400;
+    border: 1px solid #99999982;
+    border-width: 1px;
+}
+
+::ng-deep.p-tabview .p-tabview-nav li .p-tabview-nav-link:not(.p-disabled):focus {
+    outline: 0 none;
+    outline-offset: 0;
+    box-shadow: none;
+}
+
+::ng-deep.p-tabview .p-tabview-nav li:not(.p-highlight):not(.p-disabled):hover .p-tabview-nav-link {
+    background: #ffffff;
+    border-color: transparent;
+    color: #6c757d;
+    border: 1px solid #99999982;
+}
+
+::ng-deep.p-tabview .p-tabview-nav {
+    padding: 10px 0 1px;
+    background: #ffffff;
+    border: 1px solid #dee2e6;
+    border-width: 0 0 1px 0;
+}
+
+::ng-deep.p-tabview .p-tabview-left-icon {
+    color: #f26f26;
+}
+
+::ng-deep.p-tabview .p-tabview-panels {
+    border: 1px solid #c5d0dc;
+    padding: 16px 12px !important;
+    padding-bottom: 0 !important;
+    border-radius: 0;
+}
+
+.tags-text {
+    text-align: right;
+    padding: 4px 14px 0;
+    margin-bottom: 4px;
+    font-weight: 400;
+    font-size: 14px;
+    color: rgba(57, 57, 57, 0.9411764706);
+}
+
+.manage-text {
+    color: #f26f26;
+    font-weight: 600;
+    font-size: 14px;
+}
+
+.manage-text:hover {
+    cursor: pointer;
+    text-decoration: underline;
+}
+
+.tags-input {
+    width: 44%;
+    height: 28px;
+    padding: 5px 4px;
+    border-radius: 0;
+    color: #858585;
+    border: 1px solid #d5d5d5;
+    line-height: 1.2;
+    font-size: 14px;
+    margin-bottom: 4px;
+}
+
+.country-item-value {
+    img.flag {
+        width: 17px;
+    }
+}
+
+.span-text {
+    background-color: #fee188 !important;
+    color: #963 !important;
+    border-color: #fee188;
+    margin: 0 2px;
+    padding: 2px 6px;
+    font-size: 12px;
+    line-height: 1.15;
+    font-weight: 400;
+}
+
+::ng-deep.p-inputswitch .p-inputswitch-slider:before {
+    background: #ffffff;
+    width: 1.5rem;
+    height: 1.5rem;
+    left: 1px;
+    top: 6px;
+    margin-top: -0.625rem;
+    border-radius: 50%;
+    transition-duration: 0.2s;
+}
+
+::ng-deep.p-inputswitch.p-inputswitch-checked .p-inputswitch-slider:before {
+    transform: translateX(2.3rem);
+}
+
+::ng-deep.p-inputswitch.p-inputswitch-checked .p-inputswitch-slider {
+    background: #f26f26;
+}
+
+::ng-deep.p-inputswitch.p-inputswitch-checked:not(.p-disabled):hover .p-inputswitch-slider {
+    background: #f26f26;
+}
+
+.add-bttn {
+    height: 39px;
+    border: 1px solid #7b7b7b !important;
+    background-color: #fff;
+    color: #7b7b7b;
+    padding: 5px 16px;
+    cursor: pointer;
+}
+
+.add-bttn:hover {
+    color: #fff;
+    background-color: #7b7b7b;
+}
+
+.span-text1 {
+    border-radius: 5px;
+    padding: 2px 8px;
+    margin: 0px 10px;
+}
+.div-text{
+    margin: 7px 0px 0 20px;
+}

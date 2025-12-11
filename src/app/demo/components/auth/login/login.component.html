@@ -1,0 +1,97 @@
+<div *ngIf="loader==true">
+  <div class="site-loader" id="site-loader">
+      <span class="loader-spin"></span>
+  </div>
+</div>
+<div class="surface-ground flex align-items-center justify-content-center min-h-screen min-w-screen overflow-hidden">
+  <div class="flex flex-column align-items-center justify-content-center">
+    <img src="assets/layout/images/{{layoutService.config.colorScheme === 'light' ? 'logo-dark' : 'logo-white'}}.png"
+      alt="Sakai logo" class="mb-5 w-6rem flex-shrink-0">
+    <div
+      style="border-radius:56px; padding:0.3rem; background: linear-gradient(180deg, var(--primary-color) 10%, rgba(33, 150, 243, 0) 30%);">
+      <div class="w-full surface-card py-8 px-5 sm:px-8" style="border-radius:53px">
+        <div class="text-center mb-5">
+          <div class="text-900 text-3xl font-medium mb-3">Sign in to continue</div>
+        </div>
+        <form [formGroup]="loginForm" novalidate="novalidate" (ngSubmit)="submit()">
+          <div>
+            <label for="email1" class="block text-900 text-xl font-medium mb-2">Email</label>
+            <input id="email1" type="text" placeholder="Email address" pInputText class="w-full md:w-30rem mb-5"
+              style="padding:1rem" type="email" name="email" formControlName="email" autocomplete="off" [ngClass]="{
+                      'is-invalid': loginForm.controls['email'].invalid,
+                      'is-valid': loginForm.controls['email'].valid
+                    }" />
+            <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+                      validation: 'required',
+                      message: 'Email is required',
+                      control: loginForm.controls['email']
+                    }"></ng-container>
+            <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+                      validation: 'email',
+                      message: 'Email is invalid',
+                      control: loginForm.controls['email']
+                    }"></ng-container>
+            <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+                      validation: 'minLength',
+                      message: 'Email should have at least 3 symbols',
+                      control: loginForm.controls['email']
+                    }"></ng-container>
+            <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+                      validation: 'maxLength',
+                      message: 'Email should have maximum 360 symbols',
+                      control: loginForm.controls['email']
+                    }"></ng-container>
+
+            <label for="password1" class="block text-900 font-medium text-xl mb-2">Password</label>
+            <p-password id="password1" placeholder="Password" [toggleMask]="true" styleClass="mb-5"
+              inputStyleClass="w-full p-3 md:w-30rem" name="password" autocomplete="off" formControlName="password"
+              [ngClass]="{
+                      'is-invalid': loginForm.controls['password'].invalid,
+                      'is-valid': loginForm.controls['password'].valid
+                    }"></p-password>
+            <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+                      validation: 'required',
+                      message: 'Password is required',
+                      control: loginForm.controls['password']
+                    }"></ng-container>
+            <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+                      validation: 'minlength',
+                      message: 'Password should have at least 3 symbols',
+                      control: loginForm.controls['password']
+                    }"></ng-container>
+            <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+                      validation: 'maxLength',
+                      message: 'Password should have maximum 100 symbols',
+                      control: loginForm.controls['password']
+                    }"></ng-container>
+
+            <div class="flex align-items-center justify-content-between mb-5 gap-5">
+              <div class="flex align-items-center" *ngIf="hasError">
+                <!-- <p-checkbox id="rememberme1" [binary]="true" styleClass="mr-2"></p-checkbox> -->
+                <label for="rememberme1" style="color: red;"> The login details are incorrect</label>
+              </div>
+              <!-- <a class="font-medium no-underline ml-2 text-right cursor-pointer" style="color: var(--primary-color)">Forgot password?</a> -->
+            </div>
+            <button pButton pRipple label="Sign In" [disabled]="loginForm.invalid" type="submit"
+              class="w-full p-3 text-xl"></button>
+          </div>
+        </form>
+        <div class="text-center">
+          <p class="text-600 font-medium mt-3">Don't have an account <a class="cursor-pointer"
+              routerLink="/auth/signup">Signup</a> </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<ng-template #formError let-control="control" let-message="message" let-validation="validation">
+  <ng-container *ngIf="control.hasError(validation) && (control.dirty || control.touched)">
+    <div>
+      <span role="alert" style="color: red;">
+        {{ message }}
+      </span>
+    </div>
+  </ng-container>
+</ng-template>

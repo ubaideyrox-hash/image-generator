@@ -1,0 +1,224 @@
+<div class="container">
+    <div *ngIf="loader==true">
+        <div class="site-loader" id="site-loader">
+            <span class="loader-spin"></span>
+        </div>
+    </div>
+    <div class="search-display-container">
+        <span class="p-input-icon-right search-input" [ngClass]="isFullInput ? 'input-span-full-width': ''">
+            <i class="pi pi-search icon-color" (click)="toggleInput(true)"></i>
+            <input type="text" (input)="search($event)" pInputText placeholder="Search in All items" class="input-search">
+        </span>
+        <span class="p-input-icon-left tag-input" (click)="chngeDisplay()">
+            <i class="pi pi-tags icon-color" ></i>
+        </span>
+    </div>
+
+    <div class="container2" (click)="toggleInput(false)">
+        <div class="margin-top">
+            <div>
+                <h5>All Items</h5>
+            </div>
+
+            <!-- <div class="n-items">
+                <p> 10 Items &nbsp; | Per Page :
+                    <span class="dropdown-container"><p-dropdown [options]="itemsCount" [(ngModel)]="selectedCount"
+                            optionLabel="count" optionValue="count"></p-dropdown></span>
+                </p>
+
+            </div> -->
+        </div>
+
+        <div style="display: flex; align-items: center; height: 40px;">
+            <!-- <button pButton type="button" label="+ Add Folder" ></button>    -->
+            <div style="background-color: white; padding: 8px;margin: 5px; border-radius: 3px;">
+                <i class="pi pi-th-large
+                " style="color: black;"></i>
+            </div>
+
+            <div style="background-color: white; padding: 8px;margin: 5px; border-radius: 3px;" (click)="getVideos()">
+                <i class="pi pi-sync" >
+                </i>
+
+            </div>
+        </div>
+    </div>
+
+    <p-table [value]="allRecords" [(selection)]="dtSelectedRows" sortMode="multiple" [rows]="10" [showCurrentPageReport]="true" [paginator]="true" [rowsPerPageOptions]="[10,20,50,100,{showAll:'All'}]" currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries" [paginator]="true"
+        [tableStyle]="{'width': '100%', 'border-bottom-spacing':'10px'}">
+        <ng-template pTemplate="header">
+            <tr>
+                <th style=" background: none;">
+                    <p-tableHeaderCheckbox (click)="checkVal()"></p-tableHeaderCheckbox>
+
+                </th>
+                <th pSortableColumn="name" style=" background: none;">Name <p-sortIcon field="name"></p-sortIcon></th>
+                <th pSortableColumn="createdAt" style=" background: none;">Modified <p-sortIcon field="createdAt"></p-sortIcon></th>
+                <th pSortableColumn="duration" style=" background: none;">Duration<p-sortIcon field="duration"></p-sortIcon></th>
+                <th style=" background: none;">Assign Tags</th>
+                <th style=" background: none;">Actions</th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-videoInfo>
+            <tr style="margin-top:10px; border-radius: 20px;">
+                <td> <p-tableCheckbox name="groupname" [value]="videoInfo" (click)="checkVal()"></p-tableCheckbox>
+                </td>
+                <td>
+                    <div style="display:flex; align-items: center;">
+                        <video style="width: 50px; height: 40px; margin-right:5px ; border:4px solid #EEF2F6"
+                            [src]="videoInfo.image" (click)="openVideo(videoInfo)"></video>
+                        {{videoInfo.name}}
+                    </div>
+                </td>
+                <td>{{videoInfo.createdAt | date}}</td>
+                <!-- <td>Nov 29th, 2022 - 03:27</td> -->
+                <td>{{global.time_convert(videoInfo.duration)}}</td>
+
+                <!-- <td><p-dropdown  [options]="allLabels" appendTo="body"   (onChange)="AssignLabel($event,videoInfo)" optionLabel="name" placeholder="Select Tag" ></p-dropdown ></td> -->
+                    <td><p-multiSelect [options]="allLabels" appendTo="body" [(ngModel)]="videoInfo.labelsArray" (onChange)="tagList(videoInfo)" optionLabel="name" placeholder="Select Tag" ></p-multiSelect ></td>
+                <!-- <td>
+                    <i class="pi pi-images
+                    " style="color: green;"></i>
+                    <i class="pi pi-video
+                    " style="color: black; margin-left: 5px;"></i>
+                </td> -->
+                <td>
+                    <p-overlayPanel #op>
+                        <ng-template pTemplate>
+                            <ul class="actions-ul">
+                                <!-- <li class="p-2 list-item">
+                                    <i class="pi pi-pencil" style="font-size: 1em"></i>
+                                    <span class="ml-2">Edit</span>
+
+                                </li>
+                                <li class="p-2 list-item">
+                                    <i class="pi pi-copy" style="font-size: 1em"></i>
+                                    <span class="ml-2">Duplicate</span>
+
+                                </li> -->
+                                <li class="p-2 list-item" (click)="Actions('delete',videoInfo.name)">
+                                    <i class="pi pi-trash" style="font-size: 1em; color: #DD5A43;"></i>
+                                    <span class="ml-2" style="color: #DD5A43;">Delete</span>
+                                </li>
+                            </ul>
+                        </ng-template>
+                    </p-overlayPanel>
+                    <button class="three-dots-btn" type="text" pButton label="..." (click)="op.toggle($event)"></button>
+                </td>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="emptymessage" let-columns>
+            <tr>
+              <td [attr.colspan]="30" class="text-center">
+                <strong *ngIf="noRecord">No records found</strong>
+              </td>
+            </tr>
+          </ng-template>
+    </p-table>
+
+    <div style="display:flex" class="bttns">
+        <button pButton pRipple type="button" label="Add Video / Youtube / Powerpoint" class="playlist-btn p-button-warning
+                    " (click)="changeAddImageDisplay()"></button>
+        <p-overlayPanel #op>
+            <ng-template pTemplate>
+                <ul class="actions-ul">
+                    <li class="p-2 list-item">
+                        <i class="pi pi-pencil" style="font-size: 1em"></i>
+                        <span class="ml-2">Edit</span>
+
+                    </li>
+                    <li class="p-2 list-item">
+                        <i class="pi pi-copy" style="font-size: 1em"></i>
+                        <span class="ml-2">Duplicate</span>
+
+                    </li>
+                    <li class="p-2 list-item">
+                        <i class="pi pi-trash" style="font-size: 1em; color: #DD5A43;"></i>
+                        <span class="ml-2" style="color: #DD5A43;" (click)="DeleteVideos()">Delete</span>
+                    </li>
+                </ul>
+            </ng-template>
+        </p-overlayPanel>
+        <button class="action-footer-btn" [disabled]=actionButton type="text" pButton label="Actions" (click)="op.toggle($event)"></button>
+    </div>
+
+    <!-- Tag dialogue---------------------- -->
+    <p-dialog header="Create New Tag
+    " [(visible)]="display" position="top" class="test-dialog">
+        <input type="text" placeholder="Tag" (input)="tagCheck($event)" [(ngModel)]="createTag" pInputText class="tag-dialogue-input">
+        <div class="tag-buttons">
+            <button type="button" pButton (click)="chngeDisplay()">Cancel</button>
+            <button type="button" [disabled]=tagButton pButton class="tag-buttons-create" (click)="createNewTag()">Create</button>
+        </div>
+    </p-dialog>
+
+    <!-- add video Dialogue------------ -->
+    <p-dialog header="Video Source" [(visible)]="displayAddImageModal" position="top">
+        <span layout="row">
+            <hr flex />
+        </span>
+        <div style="display:flex">
+            <div class="image-dialogue" (click)="addVideo()">
+                <i class="pi pi-images" style="font-size: 3rem;"></i>
+                <p>Add Video </p>
+            </div>
+            <div class="image-dialogue" style="margin-left: 5px;" (click)="adddYoutube()">
+                <i class="pi pi-video" style="font-size: 3rem;"></i>
+                <p>Youtube Video </p>
+            </div>
+        </div>
+        <hr flex />
+
+        <!-- <div style="width: 100%; border: 1px dotted grey;" *ngIf="isVideo"  >
+            <p-fileUpload name="myfile[]" ></p-fileUpload>
+        </div>  -->
+        <ngx-file-drop *ngIf="!file[0]&&!isYoutube" contentClassName="file-dropzone" dropZoneLabel="Drop files here"
+            (onFileDrop)="dropped($event)">
+            <a (click)="openFileSelector()">
+                <ng-template ngx-file-drop-content-tmp let-openFileSelector="openFileSelector">
+                    <div class="upload-video-container" (click)="openFileSelector()">
+                        <ng-container>
+                            <a class="text-style-upload">Drop File Here or click to
+                                choose</a>
+                            <i class="pi pi-cloud-upload icon-size-upload"></i>
+                        </ng-container>
+                    </div>
+                </ng-template>
+            </a>
+        </ngx-file-drop>
+
+        <div *ngIf="file[0]" style="width: 100%;">
+            <ng-container *ngFor="let url of file">
+                <span style="color:black ;border: 1px dotted orange; padding: 10px;">&nbsp; {{this.url.name}}</span>
+            </ng-container>
+        </div>
+
+        <span class="p-input-icon-left w-full" *ngIf="isYoutube">
+            <i class="pi pi-youtube"></i>
+            <input type="text" style="width:100%" pInputText placeholder="Paste a Youtube link here">
+        </span>
+        <div style="margin-top: 14px; display: flex; justify-content: right;">
+            <button type="button" pButton (click)="changeAddImageDisplay()">Cancel</button>
+            <button type="button" pButton style="margin-left: 10px;" (click)="createVideo()">Create</button>
+        </div>
+    </p-dialog>
+
+    <p-galleria [value]="[viewVideo]" [(visible)]="isOpenVideo" [(activeIndex)]="activeIndex"
+        [containerStyle]="{'max-width': '850px'}" [fullScreen]="true" [showThumbnails]="false" [baseZIndex]="100000">
+        <ng-template pTemplate="item" let-item>
+            <video width="500" height="400" controls style="margin-right: 20px;">
+                <source [src]="item.video" type="video/mp4">
+                Your browser does not support the video tag.
+            </video>
+        </ng-template>
+        <ng-template pTemplate="thumbnail" let-item>
+            <div class="grid grid-nogutter justify-content-center">
+                <video width="500" height="400" controls style="margin-right: 20px;">
+                    <source [src]="item.video+'#t5'" type="video/mp4">
+                    Your browser does not support the video tag.
+                </video>
+            </div>
+        </ng-template>
+    </p-galleria>
+
+</div>
