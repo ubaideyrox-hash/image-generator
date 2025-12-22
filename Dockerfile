@@ -1,7 +1,7 @@
 # ----------------------------
 # Stage 1: Build Angular App
 # ----------------------------
-FROM node:16-alpine AS build
+FROM public.ecr.aws/docker/library/node:16-alpine AS build
 
 # Set working directory inside container
 WORKDIR /app
@@ -22,7 +22,7 @@ RUN npm run build -- --configuration production
 # ----------------------------
 # Stage 2: Serve with NGINX
 # ----------------------------
-FROM nginx:alpine
+FROM public.ecr.aws/docker/library/nginx:alpine
 
 # Remove default NGINX website
 RUN rm -rf /usr/share/nginx/html/*
