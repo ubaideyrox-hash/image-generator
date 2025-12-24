@@ -3,12 +3,18 @@ os: linux
 
 files:
   - source: /
-    destination: /home/ec2-user/deploy
+    destination: /opt/signage
 
 hooks:
   BeforeInstall:
-    - location: scripts/stop_container.sh
+    - location: scripts/install_dependencies.sh
+      timeout: 300
+      runas: root
+
   ApplicationStart:
     - location: scripts/start_container.sh
+      timeout: 300
+      runas: root
+
   ValidateService:
     - location: scripts/validate.sh
