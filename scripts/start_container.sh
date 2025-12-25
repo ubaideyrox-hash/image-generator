@@ -1,18 +1,24 @@
 #!/bin/bash
-set -e
 
 ACCOUNT_ID=$(aws sts get-caller-identity --query Account --output text)
+REGION=us-east-1
+IMAGE_NAME=signage-angular
+CONTAINER_NAME=signage-angular
 
-aws ecr get-login-password --region us-east-1 | \
+# Login to ECR
+aws ecr get-login-password --region $REGION | \
 docker login --username AWS --password-stdin \
-${ACCOUNT_ID}.dkr.ecr.us-east-1.amazonaws.com
+${ACCOUNT_ID}.dkr.ecr.${REGION}.amazonaws.com
 
-docker stop signage-angular || true
-docker rm signage-angular || true
+# Stop old container if exists
+docker stop $CONTAINER_NAME || true
+docker rm $CONTAINER_NAME || true
 
+# Run new container
 docker run -d \
---name signage-angular \
--p 8080:80 \
--e API_BASE_URL=http://backend.example.com/api \
--e AUTH_URL=http://auth.example.com \
-${ACCOUNT_ID}.dkr.ecr.us-east-1.amazonaws.com/signage-angular:latest
+  --restart unless-stopped \
+  --name $CONTAINER_NAME \
+  -p 8080:80 \
+  -e API_BASE_URL=http://backend.example.com/api \
+  -e AUTH_URL=http://auth.example.com \
+  ${ACCOUNT_ID}.dkr.ecr.${REGION}.amazonaws.com/${IMAGE_NAME}:latest
